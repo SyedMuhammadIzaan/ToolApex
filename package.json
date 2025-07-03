@@ -1,0 +1,23 @@
+{
+	"name": "backend",
+	"version": "1.0.0",
+	"main": "index.js",
+	"type": "module",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"dev": "server.js",
+		"start": "nodemon server.js"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"description": "",
+	"dependencies": {
+		"dotenv": "^17.0.0",
+		"express": "^5.1.0",
+		"joi": "^17.13.3",
+		"mongoose": "^8.16.1",
+		"node": "^22.17.0",
+		"nodemon": "^3.1.10"
+	}
+}
