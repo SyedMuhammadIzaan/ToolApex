@@ -1,19 +1,66 @@
 import Product from "../models/ProductModel";
+import { editProductById, newProduct, productByName, removeProductById } from "../services/ProductService";
 import productSchemaValidation from "../validators/ProductValidation";
 
-export const createProduct=(req,res)=>{
+export const createProduct=async (req,res)=>{
     try {
-        const {error,value}=productSchemaValidation(req.body);
+        const {error,value}=productSchemaValidation.validate(req.body);
         if(error){
             console.log("Error",error);
             return res.status(400).json({error:error.details[0].message});
         }
-        const newProduct=new Product(value);
-        const saveProduct=await newProduct.save()
-        res.status(201).json(saveProduct)
+        const product=await newProduct(value);
+        res.status(201).json(product)
         // const {name,price,originalPrice,discount,rating,reviewCount,inStock,sku,images,description,features,specification,included}=req.body;
         
     } catch (error) {
         res.status(500).json({ error: 'Server error', details: err.message });
+    }
+}
+
+export const getSingleProduct=async (req,res)=>{
+    try {
+        const {productName}=req.params
+        // const {error,value}=productSchemaValidation(productName);
+        if(error){
+            return res.status(400).json({error:error.details[0].message});
+        }
+        const product=await productByName(productName);
+        return res.status(200).json({ success: true, message: "Product Found Successfully", data: product });
+    } catch (error) {
+        res.status(500).json({ error: 'Server error', details: err.message });
+    }
+}
+
+export const getAllProduct=async (req,res)=>{
+    try {
+        const allProduct=await accessAllProduct();
+        return res.status(200).json({success:true,message:"Products Found Successfully",data:allProduct});
+    } catch (error) {
+        res.status(500).json({ error: 'Server error', details: err.message });
+    }
+}
+
+export const updateProduct=async (req,res)=>{
+    try {
+        const {pId}=req.params;
+        const { error, value } = productSchemaValidation.validate(req.body);
+        if(error){
+            return res.status(400).json({error:error.details[0].message});           
+        }
+        const updatedProduct=await editProductById(pId,value);
+        return res.status(201).json({data:updatedProduct});
+    } catch (error) {
+        res.status(500).json({ error: 'Server error', details: err.message });
+    }
+}
+
+export const deleteProductById=async (req,res)=>{
+    try {
+        const {pId}=req.params;
+        const response=await removeProductById(pId);
+        return res.status(200).json({message:"Successfully Deleted Product"})
+    } catch (error) {
+        
     }
 }
