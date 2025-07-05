@@ -19,7 +19,7 @@ const CustomerReviewSchema=new Schema({
         type:String,
         required:true,
     }
-})
+},{timestamps:true})
 
 const CustomerReview=mongoose.model("CustomerReview",CustomerReviewSchema);
 

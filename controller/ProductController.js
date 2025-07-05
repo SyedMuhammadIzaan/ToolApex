@@ -1,6 +1,5 @@
-import Product from "../models/ProductModel";
-import { editProductById, newProduct, productByName, removeProductById } from "../services/ProductService";
-import productSchemaValidation from "../validators/ProductValidation";
+import { editProductById, newProduct, productByName, removeProductById } from "../services/ProductService.js";
+import productSchemaValidation from "../validators/ProductValidation.js";
 
 export const createProduct=async (req,res)=>{
     try {
@@ -14,7 +13,7 @@ export const createProduct=async (req,res)=>{
         // const {name,price,originalPrice,discount,rating,reviewCount,inStock,sku,images,description,features,specification,included}=req.body;
         
     } catch (error) {
-        res.status(500).json({ error: 'Server error', details: err.message });
+        res.status(500).json({ error: 'Server error', details: error.message });
     }
 }
 
@@ -57,10 +56,10 @@ export const updateProduct=async (req,res)=>{
 
 export const deleteProductById=async (req,res)=>{
     try {
-        const {pId}=req.params;
-        const response=await removeProductById(pId);
+        const {productId}=req.params;
+        const response=await removeProductById(productId);
         return res.status(200).json({message:"Successfully Deleted Product"})
     } catch (error) {
-        
+        res.status(500).json({ error: 'Server error', details: err.message });
     }
 }

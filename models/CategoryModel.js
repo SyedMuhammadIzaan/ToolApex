@@ -5,11 +5,11 @@ const {Schema}= mongoose;
 const CategorySchema=new Schema({
     name:{
         type:String,
-        unique:true,
         required:true,
+        unique:true,
     },
     image:{
-        tyep:String,
+        type:[String],
         required:true,
     },
     products:[{
@@ -21,4 +21,4 @@ const CategorySchema=new Schema({
 
 const Category=mongoose.model("Category",CategorySchema);
 
-export default Catgeory;
+export default Category;

@@ -58,6 +58,10 @@ const ProductSchema = new Schema({
     type: [String],
     required: true,
   },
+  customerReview:{
+    type:mongoose.Schema.ObjectId,
+    ref:"CustomerReview",
+  }
 }, { timestamps: true });
 
 const Product = mongoose.model("Product", ProductSchema);
