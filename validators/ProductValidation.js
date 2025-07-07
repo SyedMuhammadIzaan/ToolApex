@@ -5,6 +5,7 @@ Joi.objectId=joiObjectid(Joi);
 
 const productSchemaValidation = Joi.object({
 	name: Joi.string().min(3).max(100).required(),
+	mainImage:Joi.string().required(),
 	price: Joi.number().positive().required(),
 	originalPrice: Joi.number().positive().required(),
 	discount: Joi.number().min(0).max(100).positive().required(),
