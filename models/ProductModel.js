@@ -58,6 +58,10 @@ const ProductSchema = new Schema({
     type: [String],
     required: true,
   },
+  category:{
+    type:mongoose.Schema.ObjectId,
+    ref:"Category"
+  },
   customerReview:{
     type:mongoose.Schema.ObjectId,
     ref:"CustomerReview",

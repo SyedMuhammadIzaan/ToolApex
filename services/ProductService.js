@@ -12,7 +12,7 @@ export const newProduct = async (data) => {
 
 export const productByName = async (pName) => {
   try {
-    const response = await Product.findOne({ name: pName });
+    const response = await Product.findOne({ name: pName }).populate("category");
     return response;
   } catch (error) {
     throw error;
@@ -21,7 +21,7 @@ export const productByName = async (pName) => {
 
 export const editProductById = async (pId, updatedData) => {
   try {
-    const response = await Product.findByIdAndUpdate(pId, updatedData, { new: true });
+    const response = await Product.findByIdAndUpdate(pId, updatedData, { new: true }).populate("category");
     return response;
   } catch (error) {
     throw error;
@@ -30,7 +30,7 @@ export const editProductById = async (pId, updatedData) => {
 
 export const accessAllProduct = async () => {
   try {
-    const response = await Product.find();
+    const response = await Product.find().populate("category");
     return response;
   } catch (error) {
     throw error;

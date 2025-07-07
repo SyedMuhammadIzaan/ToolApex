@@ -12,12 +12,13 @@ const productSchemaValidation = Joi.object({
 	reviewCount: Joi.number().integer().min(0).required(true),
 	inStock: Joi.boolean().required(),
 	sku: Joi.string().required(),
-	images: Joi.array().items(Joi.string().uri()).min(1).required(),
+	images: Joi.array().items(Joi.string()).min(1).required(),
 	description: Joi.string().min(10).required(),
 	features: Joi.array().items(Joi.string()).min(1).required(),
 	specification: Joi.object().pattern(Joi.string(), Joi.string()).required(),
 	included: Joi.array().items(Joi.string()).min(1).required(),
-	customerReview:Joi.objectId().required(),
+	category:Joi.objectId(),
+	customerReview:Joi.objectId(),
 });
 
 export default productSchemaValidation;

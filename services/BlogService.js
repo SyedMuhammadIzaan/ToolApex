@@ -13,7 +13,7 @@ export const newBlog = async (data) => {
 
 export const editBlogById = async (blogId, updatedData) => {
   try {
-    const response = await Blog.findByIdAndUpdate(blogId, updatedData, { new: true });
+    const response = await Blog.findByIdAndUpdate(blogId, updatedData, { new: true }).populate("category");
     return response;
   } catch (error) {
     throw error;
@@ -22,7 +22,7 @@ export const editBlogById = async (blogId, updatedData) => {
 
 export const accessAllBlog = async () => {
   try {
-    const response = await Blog.find();
+    const response = await Blog.find().populate("category");
     return response;
   } catch (error) {
     throw error;

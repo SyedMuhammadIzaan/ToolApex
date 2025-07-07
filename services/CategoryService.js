@@ -13,7 +13,7 @@ export const newCategory = async (data) => {
 
 export const editCategoryById = async (cId, updatedData) => {
   try {
-    const response = await Category.findByIdAndUpdate(cId, updatedData, { new: true });
+    const response = await Category.findByIdAndUpdate(cId, updatedData, { new: true }).populate("products");
     return response;
   } catch (error) {
     throw error;
@@ -22,7 +22,7 @@ export const editCategoryById = async (cId, updatedData) => {
 
 export const accessAllCategory = async () => {
   try {
-    const response = await Category.find();
+    const response = await Category.find().populate("products");
     return response;
   } catch (error) {
     throw error;
