@@ -7,6 +7,7 @@ import ProductRoute from "./routes/ProductRoute.js";
 import CategoryRoute from "./routes/CategoryRoute.js";
 import BlogRoute from "./routes/BlogRoute.js";
 import CustomerReviewRoute from "./routes/CustomerReviewRoute.js";
+import AuthRoute from "./routes/AuthRoute.js"
 const Port=serverConfig.appPort; 
 const app=express();
 
@@ -18,6 +19,7 @@ app.use(cors(corsOption));
 app.get("/",(req,res)=>{
     res.send("App is running...")
 })
+app.use("/auth",AuthRoute);
 app.use("/c/",CategoryRoute);//Category Route
 app.use("/p/",ProductRoute);//Product Route
 app.use("/b/",BlogRoute);//Blog Route
