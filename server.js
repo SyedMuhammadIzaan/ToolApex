@@ -3,11 +3,11 @@ import express from "express";
 import cors from "cors";
 import corsOption from "./config/corsConfig.js";
 import serverConfig from "./config/serverConfig.js";
+import AuthRoute from "./routes/AuthRoute.js"
 import ProductRoute from "./routes/ProductRoute.js";
 import CategoryRoute from "./routes/CategoryRoute.js";
 import BlogRoute from "./routes/BlogRoute.js";
 import CustomerReviewRoute from "./routes/CustomerReviewRoute.js";
-import AuthRoute from "./routes/AuthRoute.js"
 const Port=serverConfig.appPort; 
 const app=express();
 
