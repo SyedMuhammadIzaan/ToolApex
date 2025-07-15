@@ -16,6 +16,11 @@ const BlogSchema=new Schema({
         type:String,
         required:true,
     },
+    description:{
+        type:String,
+        required:true,
+        unique:true,
+    },
     category:{
         type:mongoose.Schema.ObjectId,
         ref:"Category",

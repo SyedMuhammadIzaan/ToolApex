@@ -6,7 +6,8 @@ Joi.objectId = joiObjectId(Joi);
 const blogSchemaValidation = Joi.object({
   title: Joi.string().min(5).max(255).required(),
   excerpt: Joi.string().min(10).required(),
-  image: Joi.string().required(), // assuming you're storing image URLs
+  image: Joi.string().required(),
+  description:Joi.string().required(),
   category: Joi.objectId().required(), // reference to Category
   author: Joi.string().min(3).max(100).required(),
   date: Joi.date().optional(), // can be skipped (defaulted)

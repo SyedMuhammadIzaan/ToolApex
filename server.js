@@ -8,6 +8,8 @@ import ProductRoute from "./routes/ProductRoute.js";
 import CategoryRoute from "./routes/CategoryRoute.js";
 import BlogRoute from "./routes/BlogRoute.js";
 import CustomerReviewRoute from "./routes/CustomerReviewRoute.js";
+import OrderRoute from "./routes/OrderRoute.js";
+import PaypalRoute from "./routes/PaypalRoute.js";
 const Port=serverConfig.appPort; 
 const app=express();
 
@@ -23,8 +25,9 @@ app.use("/auth",AuthRoute);
 app.use("/c/",CategoryRoute);//Category Route
 app.use("/p/",ProductRoute);//Product Route
 app.use("/b/",BlogRoute);//Blog Route
+app.use("/o/",OrderRoute);//Order Route
 app.use("/review",CustomerReviewRoute);//CustomerReview Route
-
+app.use("/user/paypal",PaypalRoute);//Paypal Route
 
 //Connect DB
 const connectDB= async()=>{

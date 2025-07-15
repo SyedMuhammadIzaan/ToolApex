@@ -11,6 +11,7 @@ import productSchemaValidation from "../validators/ProductValidation.js";
 export const createProduct = async (req, res) => {
 	try {
 		const { error, value } = productSchemaValidation.validate(req.body);
+		console.log("Customer Review",value)
 		if (error) {
 			console.log("Error", error);
 			return res.status(400).json({ error: error.details[0].message });
