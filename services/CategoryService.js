@@ -11,6 +11,15 @@ export const newCategory = async (data) => {
   }
 };
 
+export const categoryById=async (cId)=>{
+  try{
+    const response=await Category.findById({_id:cId}).populate("products");
+    // console.log("res",response)
+    return response;
+  }catch(error){
+    throw error
+  }
+}
 export const editCategoryById = async (cId, updatedData) => {
   try {
     const response = await Category.findByIdAndUpdate(cId, updatedData, { new: true }).populate("products");

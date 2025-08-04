@@ -3,6 +3,7 @@ import {
 	accessAllProduct,
 	editProductById,
 	newProduct,
+	productById,
 	productByName,
 	removeProductById,
 } from "../services/ProductService.js";
@@ -11,7 +12,7 @@ import productSchemaValidation from "../validators/ProductValidation.js";
 export const createProduct = async (req, res) => {
 	try {
 		const { error, value } = productSchemaValidation.validate(req.body);
-		console.log("Customer Review",value)
+		// console.log("Customer Review",value)
 		if (error) {
 			console.log("Error", error);
 			return res.status(400).json({ error: error.details[0].message });
@@ -78,7 +79,19 @@ export const getSingleProduct = async (req, res) => {
 		res.status(500).json({ error: "Server error", details: error.message });
 	}
 };
-
+export const getProductById=async (req,res)=>{
+	try{
+		const {productId}=req.params;
+		const product=await productById(productId);
+		return res.status(200).json({
+			success: true,
+			message: "Product Found Successfully",
+			data: product,
+		});
+	}catch(error){
+		res.status(500).json({ error: "Server error", details: error.message });
+	}
+}
 export const getAllProduct = async (req, res) => {
 	try {
 		const allProduct = await accessAllProduct();
@@ -144,7 +157,7 @@ export const updateProduct = async (req, res) => {
 		const updatedProduct = await editProductById(productId, value);
 		return res.status(201).json({ message:"Successfully Data Updated",data: updatedProduct });
 	} catch (error) {
-		res.status(500).json({ error: "Server error", details: err.message });
+		res.status(500).json({ error: "Server error", details: error.message });
 	}
 };
 
@@ -154,6 +167,6 @@ export const deleteProductById = async (req, res) => {
 		const response = await removeProductById(productId);
 		return res.status(200).json({ message: "Successfully Deleted Product" });
 	} catch (error) {
-		res.status(500).json({ error: "Server error", details: err.message });
+		res.status(500).json({ error: "Server error", details: error.message });
 	}
 };

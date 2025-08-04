@@ -26,13 +26,14 @@ export const signUp = async (req, res) => {
 // Login
 export const login = async (req, res) => {
   try {
+    console.log("req bofy",req.body)
 	const {error,value}=loginValidation.validate(req.body);
+  console.log("Value",value)
 	if (error) return res.status(400).json({ error: error.details[0].message });
     const user = await User.findOne({email:value.email});
     if (!user || !(await bcrypt.compare(value.password, user.password))) {
       return res.status(400).json({ message: "Invalid email or password" });
     }
-
     const token = jwt.sign({ userId: user._id }, serverConfig.jwtSecret, { expiresIn: "1d" });
     res.status(200).json({ token, user });
   } catch (err) {

@@ -1,9 +1,9 @@
-import { accessAllCategory, editCategoryById, newCategory, removeCategoryById } from "../services/CategoryService.js";
+import { accessAllCategory, categoryById, editCategoryById, newCategory, removeCategoryById } from "../services/CategoryService.js";
 import categorySchemaValidation from "../validators/CategoryValidation.js";
 
 export const createCategory=async (req,res)=>{
     try {
-        console.log("Req Body",req.body)
+        // console.log("Req Body",req.body)
         const {error,value}=categorySchemaValidation.validate(req.body);
         if(error){
             return res.status(400).json({error:error.details[0].message});
@@ -23,9 +23,20 @@ export const getAllCategory=async (req,res)=>{
         return res.status(200).json(categories);
     } catch (error) {
         res.status(500).json({ error: 'Server error', details: err.message });
-    }
 }
+    }
 
+export const getCategoryById=async (req,res)=>{
+    try {
+        const {categoryId}=req.params;
+        const category=await categoryById(categoryId);
+        if(category){
+            return res.status(200).json({success:true,data:category})
+        }
+    } catch (error) {
+        res.status(500).json({ error: 'Server error', details: err.message });
+    }
+} 
 export const updateCategoryById=async (req,res)=>{
     try {
         const {categoryId}=req.params;

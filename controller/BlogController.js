@@ -1,9 +1,10 @@
-import axios from "axios";
+// import axios from "axios";
 import {
 	accessAllBlog,
 	editBlogById,
 	newBlog,
 	removeBlogById,
+	fetchBlogById
 } from "../services/BlogService.js";
 import blogSchemaValidation from "../validators/BlogValidation.js";
 
@@ -48,6 +49,16 @@ export const createBlog = async (req, res) => {
 		res.status(500).json({ error: "Server error", details: error.message });
 	}
 };
+
+export const getBlogById=async (req,res)=>{
+	try {
+		const {blogId}=req.params;
+		const blog=await fetchBlogById(blogId);
+		return res.status(201).json({success:true,data:blog});
+	} catch (error) {
+		res.status(500).json({ error: "Server error", details: error.message });
+	}
+}
 
 export const getAllBlog = async (req, res) => {
 	try {

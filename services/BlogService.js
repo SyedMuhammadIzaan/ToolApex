@@ -11,6 +11,15 @@ export const newBlog = async (data) => {
   }
 };
 
+export const fetchBlogById=async(blogId)=>{
+  try {
+    const response=await Blog.findById({_id:blogId});
+    if(!response) return null;
+    return response;
+  } catch (error) {
+    throw error;
+  }
+}
 export const editBlogById = async (blogId, updatedData) => {
   try {
     const response = await Blog.findByIdAndUpdate(blogId, updatedData, { new: true }).populate("category");

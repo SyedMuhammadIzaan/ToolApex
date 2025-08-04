@@ -8,6 +8,7 @@ const blogSchemaValidation = Joi.object({
   excerpt: Joi.string().min(10).required(),
   image: Joi.string().required(),
   description:Joi.string().required(),
+  tag:Joi.array().items(Joi.string()).min(1).required(),
   category: Joi.objectId().required(), // reference to Category
   author: Joi.string().min(3).max(100).required(),
   date: Joi.date().optional(), // can be skipped (defaulted)
