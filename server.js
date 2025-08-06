@@ -26,7 +26,7 @@ app.use("/c/",CategoryRoute);//Category Route
 app.use("/p/",ProductRoute);//Product Route
 app.use("/b/",BlogRoute);//Blog Route
 app.use("/o/",OrderRoute);//Order Route
-app.use("/review",CustomerReviewRoute);//CustomerReview Route
+app.use("/review/",CustomerReviewRoute);//CustomerReview Route
 app.use("/user/paypal",PaypalRoute);//Paypal Route
 
 //Connect DB

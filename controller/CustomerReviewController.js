@@ -1,4 +1,4 @@
-import { accessAllReview, newReview, removeReviewById, reviewById } from "../services/CustomerReviewService.js";
+import { accessAllReview, editReviewById, fetchReviewById , newReview, removeReviewById, reviewById } from "../services/CustomerReviewService.js";
 import customerReviewSchemaValidation from "../validators/ReviewValidation.js";
 
 export const createReview=async (req,res)=>{
@@ -13,7 +13,15 @@ export const createReview=async (req,res)=>{
         res.status(500).json({ error: 'Server error', details: error.message });
     }
 }
-
+export const getReviewById=async (req,res)=>{
+    try {
+        const {reviewId}=req.params;
+        const review=await fetchReviewById(reviewId);
+        res.status(201).json({success:true,data:review})
+    } catch (error) {
+        res.status(500).json({ error: 'Server error', details: error.message });
+    }
+}
 export const getSingleReview=async (req,res)=>{
     try {
         const {reviewId}=req.params;
@@ -37,11 +45,13 @@ export const updateReviewById=async (req,res)=>{
     try {
         const {reviewId}=req.params;
         const { error, value } = customerReviewSchemaValidation.validate(req.body);
+        console.log("Value",value)
         if(error){
             return res.status(400).json({error:error.details[0].message});           
         }
-        const updatedReview=await reviewById(reviewId,value);
-        return res.status(201).json({data:updatedReview});
+        console.log("Value")
+        const updatedReview=await editReviewById(reviewId,value);
+        res.status(201).json({data:updatedReview});
     } catch (error) {
         res.status(500).json({ error: 'Server error', details: error.message });
     }
@@ -51,7 +61,7 @@ export const deleteReviewById=async (req,res)=>{
     try {
         const {reviewId}=req.params;
         const response=await removeReviewById(reviewId);
-        return res.status(200).json({message:"Successfully Deleted Review"})
+        res.status(200).json({message:"Successfully Deleted Review"})
     } catch (error) {
         res.status(500).json({ error: 'Server error', details: error.message });
     }
