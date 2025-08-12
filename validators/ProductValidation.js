@@ -19,7 +19,7 @@ const productSchemaValidation = Joi.object({
 	specification: Joi.object().pattern(Joi.string(), Joi.string()).required(),
 	included: Joi.array().items(Joi.string()).min(1).required(),
 	category:Joi.objectId(),
-	customerReview:Joi.objectId(),
+	customerReview: Joi.objectId(),
 });
 
 export default productSchemaValidation;

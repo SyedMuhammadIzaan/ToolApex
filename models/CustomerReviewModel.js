@@ -18,6 +18,10 @@ const CustomerReviewSchema=new Schema({
     comment:{
         type:String,
         required:true,
+    },
+    product:{
+        type:mongoose.Schema.ObjectId,
+        ref:"Product",
     }
 },{timestamps:true})
 

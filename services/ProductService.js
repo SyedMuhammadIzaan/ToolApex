@@ -2,7 +2,6 @@ import Product from "../models/ProductModel.js";
 
 export const newProduct = async (data) => {
   try {
-    console.log("Data",data)
     const addProduct = new Product(data);
     const response = await addProduct.save();
     return response;

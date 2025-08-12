@@ -1,11 +1,9 @@
 import { client } from '../config/paypal.js';
 import paypal from '@paypal/checkout-server-sdk';
 import Order from '../models/OrderModel.js';
-import { orderSchemaValidation } from '../validators/OrderValidation.js';
+// import { orderSchemaValidation } from '../validators/OrderValidation.js';
 
-export const createPaypalOrder = async (req, res) => {
-  const { total } = req.body;
-
+export const createPaypalOrder = async (total) => {
   const request = new paypal.orders.OrdersCreateRequest();
   request.prefer('return=representation');
   request.requestBody({
@@ -20,47 +18,36 @@ export const createPaypalOrder = async (req, res) => {
 
   try {
     const order = await client.execute(request);
-    res.json({ orderID: order.result.id });
+    return order.result.id
+    // res.json({ orderID: order.result.id });
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: 'Failed to create PayPal order' });
-  }
-};
+    throw err;
+}
+}
 
-export const capturePaypalOrder = async (req, res) => {
-  const { orderID, orderData } = req.body;
-
-  const validation = orderSchemaValidation.validate(orderData, { abortEarly: false });
-  if (validation.error) {
-    return res.status(400).json({
-      message: 'Validation failed',
-      errors: validation.error.details.map(err => err.message),
-    });
-  }
-
-  const request = new paypal.orders.OrdersCaptureRequest(orderID);
-  request.requestBody({});
-
+export const capturePayment = async (req, res) => {
   try {
-    const capture = await client.execute(request);
-    const paymentDetails = capture.result;
+    const { paypalOrderId, orderId } = req.body;
 
-    const newOrder = await Order.create({
-      ...orderData,
-      paymentResult: {
-        id: paymentDetails.id,
-        status: paymentDetails.status,
-        payerName: paymentDetails.payer.name.given_name,
-        email: paymentDetails.payer.email_address,
-      },
-    });
+    // 1. Capture payment
+    const request = new paypal.orders.OrdersCaptureRequest(paypalOrderId);
+    request.requestBody({});
+    const capture = await client().execute(request);
 
-    res.status(201).json({
-      message: 'Order created and payment captured',
-      order: newOrder,
-    });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: 'Failed to capture PayPal order', error: err.message });
+    // 2. Update order with payment result
+    const order = await Order.findById(orderId);
+    if (!order) return res.status(404).json({ message: 'Order not found' });
+
+    order.paymentResult = {
+      id: capture.result.id,
+      status: capture.result.status,
+      payerName: `${capture.result.payer.name.given_name} ${capture.result.payer.name.surname}`,
+      email: capture.result.payer.email_address
+    };
+    await order.save();
+
+    res.json({ message: 'Payment captured successfully', capture });
+  } catch (error) {
+    res.status(500).json({ message: 'Payment capture failed', error: error.message });
   }
 };

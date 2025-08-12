@@ -6,8 +6,8 @@ const route=express.Router();
 route.post("/admin/create-product",protect,createProduct);
 route.get("/",getAllProduct);
 route.get("/product/:productId",getProductById);
-route.get("/product/:productName",getSingleProduct);
-route.put("/product/:productId",protect,updateProduct);
+route.get("/:productName",getSingleProduct);
+route.put("/product/:productId",protect,protect,updateProduct);
 route.delete("/product/:productId",protect,deleteProductById);
 
 export default route

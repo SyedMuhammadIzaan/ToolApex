@@ -6,6 +6,7 @@ import {
 } from '../services/OrderService.js';
 
 import { orderSchemaValidation } from '../validators/OrderValidation.js';
+import { createPaypalOrder } from './PaypalController.js';
 
 export const createOrder = async (req, res) => {
   const { error } = orderSchemaValidation.validate(req.body, { abortEarly: false });
@@ -19,7 +20,9 @@ export const createOrder = async (req, res) => {
 
   try {
     const newOrder = await createOrderService(req.body);
-    res.status(201).json({ message: 'Order created successfully', order: newOrder });
+    const {total}=req.body;
+    const orderId=await createPaypalOrder(total)
+    res.status(201).json({ message: 'Order created successfully', order: orderId });
   } catch (err) {
     res.status(500).json({ message: 'Server Error', error: err.message });
   }

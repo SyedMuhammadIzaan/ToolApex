@@ -5,6 +5,7 @@ const customerReviewSchemaValidation = Joi.object({
 	rating: Joi.number().min(0).max(5).required(),
 	date: Joi.date().optional(),
 	comment: Joi.string().min(1).required(),
+	product:Joi.objectId(),
 });
 
 export default customerReviewSchemaValidation;
